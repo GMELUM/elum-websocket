@@ -5,13 +5,6 @@ declare module '*?worker&inline' {
     export default workerConstructor
 }
 
-declare module 'web-worker:*' {
-    const workerConstructor: {
-        new(): Worker
-    }
-    export default workerConstructor
-}
-
 type Data = Uint8Array | ArrayBuffer;
 
 interface InflateFunctionOptions {
@@ -34,5 +27,3 @@ declare module '*/pako' {
     function inflate(data: Data, options?: InflateFunctionOptions): Uint8Array;
     function deflate(data: Data | string, options?: DeflateFunctionOptions): Uint8Array;
 }
-
-declare module 'rollup-plugin-web-worker-loader';

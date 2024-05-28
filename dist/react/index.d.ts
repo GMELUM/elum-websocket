@@ -1,5 +1,5 @@
-import * as React from 'react';
-import React__default from 'react';
+import * as react from 'react';
+import { HTMLAttributes, Context as Context$1, FC } from 'react';
 
 type Events = Record<string, Record<"request" | "response" | string, any>>;
 type Data<E extends Events, T extends "request" | "response"> = {
@@ -29,15 +29,15 @@ type Context = {
     onEvents: <E extends Events>(callback: Callback<E, "response">) => void;
 };
 
-interface WebSocket extends React__default.HTMLAttributes<HTMLDivElement> {
+interface WebSocket extends HTMLAttributes<HTMLDivElement> {
     context: {
-        Context: React__default.Context<Context>;
+        Context: Context$1<Context>;
         defaultValue: Context;
     };
 }
-declare const WebSocket: React__default.FC<WebSocket>;
+declare const WebSocket: FC<WebSocket>;
 
-declare const useWebSocket: (context: React__default.Context<Context>) => Context;
+declare const useWebSocket: (context: Context$1<Context>) => Context;
 
 declare function connect(this: CTX): void;
 
@@ -58,7 +58,7 @@ type Options = Partial<{
     autoreconnect: boolean;
 }>;
 declare function init({ url, autoconnect, autoreconnect }: Options): {
-    Context: React.Context<Context>;
+    Context: react.Context<Context>;
     defaultValue: {
         connect: typeof connect;
         disconnect: typeof disconnect;

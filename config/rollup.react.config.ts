@@ -11,35 +11,35 @@ const external = ["react"];
 const extensions = [".js", ".jsx", ".ts", ".tsx"]
 
 const config: RollupOptions[] = [
-  {
-    input: 'src/react/index.ts',
-    treeshake: false,
-    output: [
-      {
-        file: `dist/react/index.mjs`,
-        format: 'es',
-        sourcemap: false,
-      },
-      {
-        file: `dist/react/index.js`,
-        format: 'cjs',
-        sourcemap: false,
-      }
-    ],
-    external: (name) => external.includes(name),
-    plugins: [
-      typescript({
-        tsconfig: "src/react/tsconfig.json",
-        sourceMap: false
-      }),
-      webWorkerLoader({
-        targetPlatform: "base64",
-        extensions: extensions,
-        inline: true,
-      }),
-      esbuild(),
-      terser()]
-  },
+  // {
+  //   input: 'src/react/index.ts',
+  //   treeshake: false,
+  //   output: [
+  //     {
+  //       file: `dist/react/index.mjs`,
+  //       format: 'es',
+  //       sourcemap: false,
+  //     },
+  //     {
+  //       file: `dist/react/index.js`,
+  //       format: 'cjs',
+  //       sourcemap: false,
+  //     }
+  //   ],
+  //   external: (name) => external.includes(name),
+  //   plugins: [
+  //     typescript({
+  //       tsconfig: "src/react/tsconfig.json",
+  //       sourceMap: false
+  //     }),
+  //     webWorkerLoader({
+  //       targetPlatform: "base64",
+  //       extensions: extensions,
+  //       inline: true,
+  //     }),
+  //     esbuild(),
+  //     terser()]
+  // },
   {
     input: 'src/react/index.ts',
     external: (name) => external.includes(name),

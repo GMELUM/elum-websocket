@@ -1,6 +1,6 @@
-import React from "react";
+import { Context as CTX, useContext } from "react";
 import { Context } from "../../engine/types";
 
-const useWebSocket = (context: React.Context<Context>) => React.useContext(context);
+const useWebSocket = (context: CTX<Context>) => useContext(context);
 
 export default useWebSocket;

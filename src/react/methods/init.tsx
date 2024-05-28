@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import ClientWorker from "web-worker:../../engine/worker/index.worker";
+import ClientWorker from "../../engine/worker/index.worker?worker&inline";
 
 import { CTX, Callback, Context } from "../../engine/types";
 

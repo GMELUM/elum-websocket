@@ -1,6 +1,6 @@
 import { createContext } from "solid-js";
 
-import worker from "web-worker:../../engine/worker/index.worker";
+import CreateWorker from "../../engine/worker/index.worker?worker&inline";
 
 import { CTX, Callback, Context } from "../../engine/types";
 
@@ -16,8 +16,6 @@ type Options = Partial<{
     autoreconnect: boolean;
 }>
 
-
-
 function init({
     url = undefined,
     autoconnect = true,
@@ -26,7 +24,7 @@ function init({
 
     const context: CTX = {
         url: url,
-        client: new Worker("data:text/javascript;base64," + worker),
+        client: new CreateWorker(),
         requestID: 0,
         callbackEmitter: new Map<number, [boolean, Callback<any, "response">]>(),
         callbackEvents: new Set<Callback<any, "response">>()

@@ -11,41 +11,45 @@ const external = ["solid-js"];
 const extensions = [".js", ".jsx", ".ts", ".tsx"]
 
 const config: RollupOptions[] = [
+    // {
+    //     plugins: [
+    //         typescript({
+    //             tsconfig: "src/solid/tsconfig.json",
+    //             sourceMap: false
+    //         }),
+    //         webWorkerLoader({
+    //             targetPlatform: "base64",
+    //             extensions: extensions,
+    //             inline: true,
+    //         }),
+    //         terser()
+    //     ],
+    //     input: 'src/solid/index.ts',
+    //     treeshake: false,
+    //     output: [
+    //         {
+    //             file: `dist/solid/index.mjs`,
+    //             format: 'es',
+    //             sourcemap: false,
+    //         },
+    //         {
+    //             file: `dist/solid/index.js`,
+    //             format: 'cjs',
+    //             sourcemap: false,
+    //         }
+    //     ],
+    //     external: (name) => external.includes(name),
+    // },
     {
+        external: (name) => external.includes(name),
+        input: 'src/solid/index.ts',
+        output: {
+            file: `dist/solid/index.d.ts`,
+            format: 'es',
+        },
         plugins: [
             typescript({
                 tsconfig: "src/solid/tsconfig.json",
-                sourceMap: false
-            }),
-            webWorkerLoader({
-                targetPlatform: "base64",
-                extensions: extensions,
-                inline: true,
-            }),
-            esbuild(),
-            terser()
-        ],
-        input: 'src/solid/index.ts',
-        treeshake: false,
-        output: [
-            {
-                file: `dist/solid/index.mjs`,
-                format: 'es',
-                sourcemap: false,
-            },
-            {
-                file: `dist/solid/index.js`,
-                format: 'cjs',
-                sourcemap: false,
-            }
-        ],
-        external: (name) => external.includes(name),
-
-    },
-    {
-        plugins: [
-            typescript({
-                tsconfig: "src/solid/tsconfig.json", // src\solid\tsconfig.json
                 sourceMap: false
             }),
             webWorkerLoader({
@@ -62,12 +66,6 @@ const config: RollupOptions[] = [
                 ]
             })
         ],
-        external: (name) => external.includes(name),
-        input: 'src/solid/index.ts',
-        output: {
-            file: `dist/solid/index.d.ts`,
-            format: 'es',
-        },
     }
 ]
 
