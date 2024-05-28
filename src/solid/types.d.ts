@@ -1,8 +1,6 @@
 declare module 'web-worker:*' {
-    const workerConstructor: {
-        new(): Worker
-    }
-    export default workerConstructor
+    const value: string
+    export default value;
 }
 
 type Data = Uint8Array | ArrayBuffer;
