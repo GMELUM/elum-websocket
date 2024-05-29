@@ -32,7 +32,7 @@ function client(url: string) {
                 if (state.client) {
                     state.status = Status.CLOSE;
                     state.client.close();
-                    postMessage([0, "close", ""]);
+                    postMessage([0, "disconnected", ""]);
                 }
                 state.lastMessage = state.lastMessage + 5000;
                 return
@@ -47,6 +47,7 @@ function client(url: string) {
     }, 1000);
 
     const initSocket = () => {
+        postMessage([0, "connecting", ""]);
         state.client = new WebSocket(url);
         state.client.binaryType = "arraybuffer";
         state.client.onopen = handlerOpen;
@@ -55,23 +56,21 @@ function client(url: string) {
     };
 
     const handlerOpen = () => {
-        console.log("open");
+        postMessage([0, "connected", ""]);
         state.status = Status.OPEN;
         closeTimeout();
     };
 
     const handlerClose = () => {
-        console.log("close");
-
         state.status = Status.CLOSE;
-        postMessage([0, "close", ""]);
+        postMessage([0, "disconnected", ""]);
 
         startTimeout(
             () => { initSocket(); },
             () => {
                 closeTimeout();
                 state.status = Status.ABORT;
-                postMessage([0, "abort", ""])
+                postMessage([0, "aborted", ""])
             }
         );
     };

@@ -8,7 +8,7 @@ export default defineConfig({
         outDir: "../../dist/react",
         emptyOutDir: false,
         rollupOptions: {
-            external: ['react', 'react/jsx-runtime']
+            external: ['react', 'react/jsx-runtime', "elum-state", "elum-state/react"]
         },
         target: "esnext",
         minify: "terser",

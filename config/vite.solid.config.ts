@@ -9,7 +9,7 @@ export default defineConfig({
         outDir: "../../dist/solid",
         emptyOutDir: false,
         rollupOptions: {
-            external: ['solid-js']
+            external: ['solid-js', 'solid-js/store', 'elum-state', 'elum-state/solid']
         },
         target: "esnext",
         minify: "terser",

@@ -10,19 +10,20 @@ export type CTX = {
     url?: string;
     client: Worker;
     requestID: number;
-    callbackEmitter: Map<number, [boolean, Callback<any, "response">]>;
+    callbackEmitter: Map<number, Callback<any, "response">>;
     callbackEvents: Set<Callback<any, "response">>;
 }
 
 export type Context = {
+    status: unknown;
     connect: () => void;
     disconnect: () => void;
     terminate: () => void;
     send: {
         <E extends Events, K extends keyof E>(event: K, data: E[K]["request"]): Promise<E[K]["response"]>
-        <E extends Events, K extends keyof E>(event: K, data: E[K]["request"], global?: boolean): Promise<E[K]["response"]>
-        <E extends Events, K extends keyof E>(event: K, data: E[K]["request"], callback: (data: E[K]["response"]) => void, global?: boolean): void
-        <E extends Events, K extends keyof E>(event: K, data: E[K]["request"], callback: (data: E[K]["response"]) => void, global?: boolean): void
+        <E extends Events, K extends keyof E>(event: K, data: E[K]["request"]): Promise<E[K]["response"]>
+        <E extends Events, K extends keyof E>(event: K, data: E[K]["request"], callback: (data: E[K]["response"]) => void): void
+        <E extends Events, K extends keyof E>(event: K, data: E[K]["request"], callback: (data: E[K]["response"]) => void): void
     };
     onEvents: <E extends Events>(callback: Callback<E, "response">) => void;
 }

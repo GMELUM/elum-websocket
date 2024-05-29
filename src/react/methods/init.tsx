@@ -1,6 +1,7 @@
 import { createContext } from "react";
+import { atom, setter } from "elum-state/react";
 
-import ClientWorker from "../../engine/worker/index.worker?worker&inline";
+import CreateWorker from "../../engine/worker/index.worker?worker&inline";
 
 import { CTX, Callback, Context } from "../../engine/types";
 
@@ -24,25 +25,34 @@ function init({
 
     const context: CTX = {
         url: url,
-        client: new ClientWorker(),
+        client: new CreateWorker(),
         requestID: 0,
-        callbackEmitter: new Map<number, [boolean, Callback<any, "response">]>(),
+        callbackEmitter: new Map<number, Callback<any, "response">>(),
         callbackEvents: new Set<Callback<any, "response">>()
     }
 
+    const status = atom({ key: "__elum_websocket_status", default: "disconnected" });
+
     context.client.onmessage = (e: MessageEvent<any>) => {
         const [requestId, event, value] = e.data;
-        const emmiter = context.callbackEmitter.get(requestId);
-        if (!emmiter || emmiter[0]) {
-            for (const clb of context.callbackEvents) {
-                clb({ event: event, data: value })
-            }
-            if (emmiter && emmiter[1]) {
-                context.callbackEmitter.delete(requestId)
-            }
-            return
+
+        if ([
+            "disconnected",
+            "connected",
+            "connecting",
+            "aborted"
+        ].includes(event)) {
+            return setter(status, event);
         }
-        emmiter[1](value);
+
+        for (const clb of context.callbackEvents) {
+            clb({ event: event, data: value })
+        }
+
+        const emmiter = context.callbackEmitter.get(requestId);
+        if (emmiter) {
+            emmiter(value);
+        }
     }
 
     if (url && autoconnect) {
@@ -52,6 +62,7 @@ function init({
     return {
         Context: createContext<Context>({} as Context),
         defaultValue: {
+            status: status,
             connect: connect.bind(context) as typeof connect,
             disconnect: disconnect.bind(context) as typeof disconnect,
             terminate: terminate.bind(context) as typeof terminate,
